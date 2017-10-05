@@ -5,12 +5,12 @@ import Timeline from './components/Timeline';
 class App extends Component {
   render() {
     return (
-    <div id="root">
-      <div className="main">
-        <Header/>
-        <Timeline/>
+      <div id="root">
+        <div className="main">
+          <Header/>
+          <Timeline/>
+        </div>
       </div>
-    </div>
     );
   }
 }
