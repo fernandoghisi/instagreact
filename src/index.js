@@ -12,8 +12,11 @@ import { Router, Route, browserHistory } from 'react-router';
 import { matchPattern } from 'react-router/lib/PatternUtils';
 //import registerServiceWorker from './registerServiceWorker';
 
-function verificaAutenticacao(nextState, replace) {
-  if (localStorage.getItem('auth-token') == null) {
+function verifyAuth(nextState, replace) {
+  //console.log(nextState);
+  const result = matchPattern('/timeline(/:login)', nextState.location.pathname);
+  const privateEndpoint = result.paramValues[0] === undefined;
+  if (privateEndpoint && localStorage.getItem('auth-token') === null) {
     replace('/?msg=você precisa estar logado para acessar o endereço');
   }
 }
@@ -23,7 +26,7 @@ ReactDOM.render(
   (
     <Router history={browserHistory}>
       <Route path="/" component={Login}/>
-      <Route path="/timeline" component={App} onEnter={verificaAutenticacao}/>
+      <Route path="/timeline(/:login)" component={App} onEnter={verifyAuth}/>
       <Route path="/logout" component={Logout}/>
     </Router>
   ),
