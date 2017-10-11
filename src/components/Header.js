@@ -5,11 +5,11 @@ export default class Header extends Component {
 
   pesquisa(event) {
     event.preventDefault();
-      fetch(`http://localhost:8080/api/public/fotos/${this.loginPesquisado.value}`)
-        .then(response => response.json())
-        .then(fotos => {
-          Pubsub.publish('timeline', {fotos});
-        });
+    fetch(`http://localhost:8080/api/public/fotos/${this.loginPesquisado.value}`)
+      .then(response => response.json())
+      .then(fotos => {
+        Pubsub.publish('timeline', fotos);
+      });
   }
 
   render() {
@@ -17,25 +17,26 @@ export default class Header extends Component {
       <header className="header container">
         <h1 className="header-logo">
           Instagreact
-        </h1>
+          </h1>
 
         <form className="header-busca" onSubmit={this.pesquisa.bind(this)}>
-          <input ref={input => this.loginPesquisado = input} type="text" name="search" placeholder="Pesquisa" className="header-busca-campo"/>
-          <input type="submit" value="Buscar" className="header-busca-submit"/>
+          <input type="text" name="search" placeholder="Pesquisa" className="header-busca-campo" ref={input => this.loginPesquisado = input} />
+          <input type="submit" value="Buscar" className="header-busca-submit" />
         </form>
+
 
         <nav>
           <ul className="header-nav">
             <li className="header-nav-item">
               <a href="#">
                 ♡
-                {/*                 ♥ */}
+                  {/*                 ♥ */}
                 {/* Quem deu like nas minhas fotos */}
               </a>
             </li>
           </ul>
         </nav>
-      </header>            
+      </header>
     );
   }
 }
