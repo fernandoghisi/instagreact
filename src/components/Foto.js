@@ -4,12 +4,6 @@ import { PropTypes } from 'react'
 
 class FotoAtualizacoes extends Component {
 
-  /*constructor(){
-    super();        
-    this.like.bind(this);
-    this.comenta.bind(this);
-  }*/
-
   like(event) {
     event.preventDefault();
     this.props.like(this.props.foto.id);
