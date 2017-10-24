@@ -18,7 +18,6 @@ function verificaAutenticacao(nextState, replace) {
   }
 }
 
-
 ReactDOM.render(
   (
     <Router history={browserHistory}>

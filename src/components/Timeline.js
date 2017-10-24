@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FotoItem from './Foto';
 import { CSSTransitionGroup } from 'react-transition-group';
+import TimelineStore from '../logicas/TimelineStore';
 
 export default class Timeline extends Component {
 
@@ -11,8 +12,8 @@ export default class Timeline extends Component {
   }
 
   componentWillMount() {
-    this.props.store.subscribe(fotos => {
-      this.setState({ fotos });
+    this.props.store.subscribe(() => {
+      this.setState({ fotos: this.props.store.getState() });
     })
   }
 
@@ -24,7 +25,8 @@ export default class Timeline extends Component {
     } else {
       urlPerfil = `http://localhost:8080/api/public/fotos/${this.login}`;
     }
-    this.props.store.lista(urlPerfil);
+
+    this.props.store.dispatch(TimelineStore.lista(urlPerfil));
   }
 
   componentDidMount() {
@@ -39,17 +41,17 @@ export default class Timeline extends Component {
   }
 
   like(fotoId) {
-    this.props.store.like(fotoId);
+    this.props.store.dispatch(TimelineStore.like(fotoId));
   }
 
   comenta(fotoId, textoComentario) {
-    this.props.store.comenta(fotoId, textoComentario);
+    this.props.store.dispatch(TimelineStore.comenta(fotoId, textoComentario));
   }
 
   render() {
     return (
       <div className="fotos container">
-        <CSSTransitionGroup
+        <CSSTransitionGroup 
           transitionName="timeline"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={300}>
