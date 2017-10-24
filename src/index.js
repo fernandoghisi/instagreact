@@ -8,6 +8,11 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import { Router, Route, browserHistory } from 'react-router';
 import { matchPattern } from 'react-router/lib/PatternUtils';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { timeline } from './reducers/timeline';
+import { notificacao } from './reducers/header';
+import { Provider } from 'react-redux';
 
 function verificaAutenticacao(nextState, replace) {
   const resultado = matchPattern('/timeline(/:login)', nextState.location.pathname);
@@ -18,13 +23,18 @@ function verificaAutenticacao(nextState, replace) {
   }
 }
 
+const reducers = combineReducers({ timeline, notificacao });
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
+
 ReactDOM.render(
   (
-    <Router history={browserHistory}>
-      <Route path="/" component={Login} />
-      <Route path="/timeline(/:login)" component={App} onEnter={verificaAutenticacao} />
-      <Route path="/logout" component={Logout} />
-    </Router>
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={Login} />
+        <Route path="/timeline(/:login)" component={App} onEnter={verificaAutenticacao} />
+        <Route path="/logout" component={Logout} />
+      </Router>
+    </Provider>
   ),
   document.getElementById('root')
 );
